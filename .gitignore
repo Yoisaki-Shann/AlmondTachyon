@@ -1,0 +1,9 @@
+# Python
+__pycache__/
+*.pyc
+
+# Environment Variables
+.env
+
+# Data Bindings
+Data/json/*_bindings.json
