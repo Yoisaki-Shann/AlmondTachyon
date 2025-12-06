@@ -58,7 +58,7 @@ class Staff(commands.Cog):
     # --- 2. MANAGEMENT COMMANDS ---
     @commands.command()
     @commands.check(is_manager) 
-    async def link(self, ctx, member: discord.Member, in_game_name: str, club_ref: str = "main"):
+    async def link(self, ctx, member: discord.Member, club_ref: str = "main", *, in_game_name):
         """ Link @User to Name """
         club_id = resolve_club_id(club_ref)
         if not club_id: return await ctx.send(f"❌ Invalid Club")
@@ -68,6 +68,7 @@ class Staff(commands.Cog):
 
         files = get_filenames(club_id)
         bindings = load_json(files['bind'])
+        in_game_name = in_game_name.strip()
         bindings[in_game_name] = member.id
         save_json(files['bind'], bindings)
         
