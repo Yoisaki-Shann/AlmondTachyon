@@ -12,6 +12,7 @@ A Discord bot designed to track Club Fan Counts, Member Activity, and Weekly Gro
 💾 Data Persistence: Saves history to CSV for long-term analysis.
 
 ## Directory Structure
+```text
 AlmondTachyon/
 ├── .env                 # Discord Token (Not uploaded to GitHub)
 ├── main.py              # Bot Entry Point
@@ -22,6 +23,7 @@ AlmondTachyon/
 └── Data/                # Database Storage
     ├── json/            # Bindings & Weekly Snapshots
     └── csv/             # Long-term history logs
+```
 
 ## ⚠️ Disclaimer
 This bot is for educational and community management purposes.
