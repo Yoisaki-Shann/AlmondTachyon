@@ -3,13 +3,13 @@ A Discord bot designed to track Club Fan Counts, Member Activity, and Weekly Gro
 
 
 ## Features
-📊 Live Leaderboards: Scrapes real-time fan counts for all 30 members.
-📈 Growth Tracking: Automatically calculates weekly fan gains and daily averages.
-🕒 Activity Monitor: Checks "Last Login" times to identify inactive members.
-🔗 Discord Linking: Bind In-Game Names (IGN) to Discord Users for easier pinging.
-🏢 Multi-Club Support: Monitor multiple clubs (e.g., Main & Sub) simultaneously.
-🤖 Automated Reporting: Runs a full report every Sunday at 20:00 (8 PM).
-💾 Data Persistence: Saves history to CSV for long-term analysis.
+- 📊 **Live Leaderboards**: Scrapes real-time fan counts for all 30 members.
+- 📈 **Growth Tracking**: Automatically calculates weekly fan gains and daily averages.
+- 🕒 **Activity Monitor**: Checks "Last Login" times to identify inactive members.
+- 🔗 **Discord Linking**: Bind In-Game Names (IGN) to Discord Users for easier pinging.
+- 🏢 **Multi-Club Support**: Monitor multiple clubs (e.g., Main & Sub) simultaneously.
+- 🤖 **Automated Reporting**: Runs a full report every Sunday at 20:00 (8 PM).
+- 💾 **Data Persistence**: Saves history to CSV for long-term analysis.
 
 ## Directory Structure
 ```text
