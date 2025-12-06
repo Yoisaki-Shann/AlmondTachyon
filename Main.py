@@ -60,10 +60,10 @@ async def help(ctx):
             "🕒 **Login Check**\n"
             "See who is Online, Offline, or Inactive.\n\n"
             
-            "> `!link @User Name [club]`\n"
+            "> `!link @User [club] Name`\n"
             "🔗 **Connect User**\n"
             "Link a Discord user to an In-Game Name.\n"
-            "*(Ex: `!link @Kuro SilenceSuzuka umaclover`)*\n\n"
+            "*(Ex: `!link @Kuro umaclover SilenceSuzuka`)*\n\n"
             
             "> `!weekly`\n"
             "💾 **Sunday Save**\n"
