@@ -8,7 +8,7 @@ from utils import (
     CLUB_FILENAMES 
 )
 
-REPORT_CHANNEL_ID = 123456789012345678 # ⚠️ REPLACE WITH YOUR REAL CHANNEL ID
+REPORT_CHANNEL_ID = int(os.getenv('REPORT_CHANNEL_ID'))
 
 class Staff(commands.Cog):
     def __init__(self, bot):

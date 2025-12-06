@@ -1,9 +1,15 @@
-# Python
+# Security Keys
+.env
+# Personal Data / Database
+Data/
+Data/csv/
+Data/json/
+*.csv
+*.json
+*.db
+
+# Python Junk
 __pycache__/
 *.pyc
-
-# Environment Variables
-.env
-
-# Data Bindings
-Data/json/*_bindings.json
+# Local Chrome Profiles (Just in case)
+ChromeProfile/
