@@ -26,7 +26,7 @@ AlmondTachyon/
 ```
 
 ## ⚠️ Disclaimer
-This bot is for educational and community management purposes.
-Do not close the Chrome window while the bot is running.
-Do not turn off the PC if you require 24/7 uptime. (need to keep Chrome open)
-This tool is not affiliated with Cygames. Use responsibly.
+- This bot is for educational and community management purposes.
+- Do not close the Chrome window while the bot is running.( chrome gui needs to be open/minimized)
+- Do not turn off the PC if you require 24/7 uptime. (You need to keep Chrome open/minimized).
+- This tool is not affiliated with Cygames. Use responsibly.
