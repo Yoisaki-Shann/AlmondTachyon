@@ -73,7 +73,29 @@ class Staff(commands.Cog):
         save_json(files['bind'], bindings)
         
         await ctx.send(f"🔗 Linked **{in_game_name}** to {member.mention} in **{pretty_name}**!")
+        
+    # --- 3. UNLINK ---   
+    @commands.command()
+    @commands.check(is_manager)
+    async def unlink(self, ctx, in_game_name: str, club_ref: str = "main"):
+        """ Unlink Name """
+        club_id = resolve_club_id(club_ref)
+        if not club_id: return await ctx.send(f"❌ Invalid Club")
 
+        # Get Pretty Name
+        pretty_name = CLUB_FILENAMES.get(club_id, f"Club {club_id}")
+
+        files = get_filenames(club_id)
+        bindings = load_json(files['bind'])
+        
+        # Check if binding exists
+        if in_game_name in bindings:
+            del bindings[in_game_name]
+            save_json(files['bind'], bindings)
+            await ctx.send(f"🗑️ Unlinked **{in_game_name}** in **{pretty_name}**!")
+        else:
+            await ctx.send(f"❌ **{in_game_name}** is not linked in **{pretty_name}**.")
+            
     @commands.command()
     @commands.check(is_manager)
     async def weekly(self, ctx):
