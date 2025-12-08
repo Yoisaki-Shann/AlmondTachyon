@@ -157,10 +157,10 @@ class Public(commands.Cog):
             gain = player_data['fans'] - weekly_file.get(real_name, player_data['fans'])
             if gain < 0: gain = 0
 
-            pretty_club_name = CLUB_FILENAMES.get(club_num, f"Club {club_num}")
+            club_name = CLUB_FILENAMES.get(club_num, f"Club {club_num}")
 
-            embed = discord.Embed(title=f"📊 Stats: {real_name}", color=discord.Color.blue())
-            embed.add_field(name="🏆 Rank", value=f"#{rank} ({pretty_club_name})", inline=True)
+            embed = discord.Embed(title=f"📊 Stats1: {real_name}", color=discord.Color.blue())
+            embed.add_field(name="🏆 Rank", value=f"#{rank} ({club_name})", inline=True)
             embed.add_field(name="✨ Total Fans", value=f"{player_data['fans']:,}", inline=True)
             embed.add_field(name="📅 Earned This Week", value=f"+{gain:,}", inline=False)
             embed.add_field(name="🔗 Discord", value=target_user_display, inline=False)
@@ -179,11 +179,10 @@ class Public(commands.Cog):
         club_id = resolve_club_id(club_ref)
         if not club_id: return await ctx.send(f"❌ Unknown Club: {club_ref}")
 
-        # Get Pretty Name
-        pretty_name = CLUB_FILENAMES.get(club_id, f"Club {club_id}")
+        club_name = CLUB_FILENAMES.get(club_id, f"Club {club_id}")
 
         port = 9222 if club_id == 1 else 9223
-        await ctx.send(f"📊 Analyzing **{pretty_name}**...")
+        await ctx.send(f"📊 Analyzing **{club_name}**...")
         
         club_title_from_web, raw_data = read_browser_and_sort(port)
         if not club_title_from_web: return await ctx.send(f"❌ {raw_data}")
@@ -194,7 +193,7 @@ class Public(commands.Cog):
         member_count = len(raw_data)
         monthly_est = total_daily * 30
         
-        embed = discord.Embed(title=f"📈 Club Report: {pretty_name}", color=discord.Color.gold())
+        embed = discord.Embed(title=f"📈 Club Report: {club_name}", color=discord.Color.gold())
         
         embed.add_field(name="👥 Members", value=f"{member_count}/30", inline=True)
         embed.add_field(name="✨ Total Fans", value=f"{total_fans:,}", inline=True)

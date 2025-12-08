@@ -50,15 +50,15 @@ class Staff(commands.Cog):
         club_id = resolve_club_id(club_ref)
         if not club_id: return await ctx.send(f"❌ Unknown Club: {club_ref}")
 
-        pretty_name = CLUB_FILENAMES.get(club_id, f"Club {club_id}")
+        club_name = CLUB_FILENAMES.get(club_id, f"Club {club_id}")
         port = 9222 if club_id == 1 else 9223
         
-        await ctx.send(f"🕒 Checking **{pretty_name}** login status...")
+        await ctx.send(f"🕒 Checking **{club_name}** login status...")
         
         club_title_from_web, raw_data = read_browser_and_sort(port)
         if not club_title_from_web: return await ctx.send(f"❌ {raw_data}")
 
-        msg = f"🕒 **Last Login: {pretty_name}** 🕒\n"
+        msg = f"🕒 **Last Login: {club_name}** 🕒\n"
         for i, p in enumerate(raw_data):
             login = p['login']
             if "minute" in login or "hour" in login: icon = "🟢"
@@ -79,13 +79,13 @@ class Staff(commands.Cog):
         club_id = resolve_club_id(club_ref)
         if not club_id: return await ctx.send(f"❌ Invalid Club: {club_ref}")
 
-        pretty_name = CLUB_FILENAMES.get(club_id, f"Club {club_id}")
+        club_name = CLUB_FILENAMES.get(club_id, f"Club {club_id}")
         files = get_filenames(club_id)
         bindings = load_json(files['bind'])
         in_game_name = in_game_name.strip()
         bindings[in_game_name] = member.id
         save_json(files['bind'], bindings)
-        await ctx.send(f"🔗 Linked **{in_game_name}** to {member.mention} in **{pretty_name}**!")
+        await ctx.send(f"🔗 Linked **{in_game_name}** to {member.mention} in **{club_name}**!")
         
     # --- 3. UNLINK ---   
     @commands.command()
@@ -94,16 +94,16 @@ class Staff(commands.Cog):
         club_id = resolve_club_id(club_ref)
         if not club_id: return await ctx.send(f"❌ Invalid Club: {club_ref}")
 
-        pretty_name = CLUB_FILENAMES.get(club_id, f"Club {club_id}")
+        club_name = CLUB_FILENAMES.get(club_id, f"Club {club_id}")
         files = get_filenames(club_id)
         bindings = load_json(files['bind'])
         
         if in_game_name in bindings:
             del bindings[in_game_name]
             save_json(files['bind'], bindings)
-            await ctx.send(f"🗑️ Unlinked **{in_game_name}** in **{pretty_name}**!")
+            await ctx.send(f"🗑️ Unlinked **{in_game_name}** in **{club_name}**!")
         else:
-            await ctx.send(f"❌ **{in_game_name}** is not linked in **{pretty_name}**.")
+            await ctx.send(f"❌ **{in_game_name}** is not linked in **{club_name}**.")
             
     # --- 4. WEEKLY MANUAL ---
     @commands.command()

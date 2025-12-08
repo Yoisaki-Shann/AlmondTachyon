@@ -18,16 +18,18 @@ CLUB_FILENAMES = {
     2: "umaclover"    
 }
 
+# --- 2. CLUB ID RESOLVER ---
 def resolve_club_id(user_input):
     if user_input is None: return 1
     key = str(user_input).lower()
     return CLUB_MAP.get(key, 1)
 
-# --- FILE PATHS ---
+# --- 3. FILE PATHS ---
 JSON_PATH = "Data/json/"
 CSV_PATH = "Data/csv/"
 os.makedirs(JSON_PATH, exist_ok=True)
 os.makedirs(CSV_PATH, exist_ok=True)
+
 
 def get_filenames(club_id):
     real_name = CLUB_FILENAMES.get(club_id, f"club{club_id}")
@@ -38,6 +40,7 @@ def get_filenames(club_id):
         "csv": f"{CSV_PATH}{prefix}weekly_history.csv"
     }
 
+# --- 4. PERMISSION CHECKER ---
 def is_manager(ctx):
     if ctx.author.guild_permissions.administrator: return True
     allowed_roles = ["mod", "staff", "ls uma officer", "umaclover leader"]
@@ -45,6 +48,7 @@ def is_manager(ctx):
         if role.name.lower() in allowed_roles: return True
     return False
 
+# --- 5. JSON LOADER & SAVERS ---
 def load_json(filename):
     if os.path.exists(filename):
         with open(filename, 'r', encoding='utf-8') as f:
@@ -67,7 +71,7 @@ def save_weekly_csv(filename, data_list, previous_data):
             if gain < 0: gain = 0
             writer.writerow([date_str, p['name'], p['fans'], gain, int(gain/7)])
 
-# --- 🔄 1. BACKGROUND REFRESHER (Runs every 5 mins) ---
+# --- 6. BACKGROUND REFRESHER (Runs every 1 hour) ---
 def perform_background_refresh(port_number):
     print(f"🔄 Background Refresh: Port {port_number}...")
     chrome_options = Options()
@@ -84,8 +88,9 @@ def perform_background_refresh(port_number):
     except Exception as e:
         print(f"⚠️ Refresh Failed on Port {port_number}: {e}")
 
-# --- 🕵️ 2. THE READER (Runs when you type !profile) ---
+# --- 7. THE READER (Runs when you type !profile) ---
 def read_browser_and_sort(port_number):
+    
     # Notice: NO REFRESH CODE HERE! It just looks at what is already there.
     print(f"👀 Reading Chrome on Port {port_number}...")
     chrome_options = Options()
