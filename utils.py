@@ -1,25 +1,21 @@
 import os
 import json
 import csv
+import time
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
-# --- ⚙️ CLUB CONFIGURATION ⚙️ ---
-
-# 1. INPUT MAP (What you type in Discord)
-# "text": ID
+# --- ⚙️ CONFIGURATION ⚙️ ---
 CLUB_MAP = {
-    "1": 1, "lunasoul": 1,
-    "2": 2, "umaclover": 2
+    "1": 1, "lunasoul": 1, "main": 1,
+    "2": 2, "umaclover": 2, "sub": 2
 }
 
-# 2. OUTPUT NAMES (What the Files & Bot calls them)
-# ID: "Real Name" (NO SPACES ALLOWED FOR FILENAMES!)
 CLUB_FILENAMES = {
-    1: "lunasoul",   # <--- CHANGE THIS to your club name
-    2: "umaclover"    # <--- CHANGE THIS to your 2nd club name
+    1: "lunasoul",   
+    2: "umaclover"    
 }
 
 def resolve_club_id(user_input):
@@ -34,19 +30,14 @@ os.makedirs(JSON_PATH, exist_ok=True)
 os.makedirs(CSV_PATH, exist_ok=True)
 
 def get_filenames(club_id):
-    # Get the fancy name from the list above, or default to "club1" if missing
     real_name = CLUB_FILENAMES.get(club_id, f"club{club_id}")
-    
-    # Prefix will be "TeamRigil_" instead of "club1_"
     prefix = f"{real_name}_"
-    
     return {
         "bind": f"{JSON_PATH}{prefix}bindings.json",
         "json": f"{JSON_PATH}{prefix}weekly_start.json",
         "csv": f"{CSV_PATH}{prefix}weekly_history.csv"
     }
 
-# --- PERMISSIONS ---
 def is_manager(ctx):
     if ctx.author.guild_permissions.administrator: return True
     allowed_roles = ["mod", "staff", "ls uma officer", "umaclover leader"]
@@ -54,7 +45,6 @@ def is_manager(ctx):
         if role.name.lower() in allowed_roles: return True
     return False
 
-# --- FILE HELPERS ---
 def load_json(filename):
     if os.path.exists(filename):
         with open(filename, 'r', encoding='utf-8') as f:
@@ -77,18 +67,41 @@ def save_weekly_csv(filename, data_list, previous_data):
             if gain < 0: gain = 0
             writer.writerow([date_str, p['name'], p['fans'], gain, int(gain/7)])
 
-# --- BROWSER HOOK ---
+# --- 🔄 1. BACKGROUND REFRESHER (Runs every 5 mins) ---
+def perform_background_refresh(port_number):
+    print(f"🔄 Background Refresh: Port {port_number}...")
+    chrome_options = Options()
+    chrome_options.add_experimental_option("debuggerAddress", f"127.0.0.1:{port_number}")
+    
+    try:
+        driver = webdriver.Chrome(options=chrome_options)
+        # REFRESH HAPPENS HERE ONLY
+        driver.refresh()
+        time.sleep(5) # Wait for load
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(1)
+        print(f"✅ Port {port_number} Refreshed.")
+    except Exception as e:
+        print(f"⚠️ Refresh Failed on Port {port_number}: {e}")
+
+# --- 🕵️ 2. THE READER (Runs when you type !profile) ---
 def read_browser_and_sort(port_number):
-    print(f"👀 Connecting to Chrome on Port {port_number}...")
+    # Notice: NO REFRESH CODE HERE! It just looks at what is already there.
+    print(f"👀 Reading Chrome on Port {port_number}...")
     chrome_options = Options()
     chrome_options.add_experimental_option("debuggerAddress", f"127.0.0.1:{port_number}")
     try:
         driver = webdriver.Chrome(options=chrome_options)
-        try: club_name = driver.title.replace(" | ChronoGenesis", "").strip()
+        try: 
+            full_title = driver.title
+            if "|" in full_title:
+                club_name = full_title.split("|")[0].strip()
+            else:
+                club_name = "Club"
         except: club_name = "Club"
         
         rows = driver.find_elements(By.CLASS_NAME, "club-member-row-container")
-        if not rows: return None, "No members found."
+        if not rows: return None, "No members found (Browser might be refreshing? Try again in 5s)."
         
         raw_data = []
         for row in rows:
