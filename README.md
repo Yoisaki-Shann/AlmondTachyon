@@ -1,6 +1,8 @@
 # AlmondTachyon
 A Discord bot designed to track Club Fan Counts, Member Activity, and Weekly Growth for Uma Musume Pretty Derby.
 
+**Note:** The 2nd version of this bot, which uses API and SQLite, can be found here: [ManhattanTachyon](https://github.com/Yoisaki-Shann/ManhattanTachyon)
+
 
 ## Features
 - 📊 **Live Leaderboards**: Scrapes real-time fan counts for all 30 members.
